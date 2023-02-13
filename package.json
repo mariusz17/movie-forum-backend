@@ -4,7 +4,8 @@
   "description": "Forum Filmowe Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +24,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.7.0",
+    "mongoose": "^6.9.1",
     "nodemon": "^2.0.20"
   }
 }
