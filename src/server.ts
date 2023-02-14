@@ -1,4 +1,6 @@
-import express, { Response } from 'express';
+import express from 'express';
+import { errorHandler } from './middleware/errorHandler';
+
 import { env } from './config';
 import { connectDB } from './services/mongoDB/client';
 
@@ -8,14 +10,13 @@ const app = express();
 
 connectDB(env.MONGO_URI);
 
-app.get('/api', (req, res, next) => {
-  const lang = req.acceptsLanguages()[0];
-
+app.get('/api', (req, res) => {
   res.json({
-    lang,
-    message: t('greeting', lang),
+    message: t('greeting', req.acceptsLanguages()[0]),
   });
 });
+
+app.use(errorHandler);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Sorry can't find that!" });
