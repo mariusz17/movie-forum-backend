@@ -11,5 +11,4 @@ export type UserResponseData = {
   id: string;
   name: string;
   email: string;
-  token: string;
 };

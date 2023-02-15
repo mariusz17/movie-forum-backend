@@ -23,16 +23,20 @@ export const login: RequestHandler<
     const user = await User.findOne({ email });
 
     if (user && (await compare(password, user.password))) {
-      res.status(200).json({
-        ok: true,
-        status: 200,
-        data: {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          token: generateToken(user._id.toString()),
-        },
-      });
+      res
+        .status(200)
+        .cookie('accessToken', generateToken(user._id.toString()), {
+          maxAge: 1000 * 60 * 60 * 24 * 30,
+        })
+        .json({
+          ok: true,
+          status: 200,
+          data: {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+          },
+        });
     } else {
       res.status(401);
       throw new Error(res.getErrorText('wrongCredentials'));

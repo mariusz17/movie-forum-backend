@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import { env } from './config';
 import { i18n } from './middleware/i18n';
 import { router as userRouter } from './routes/user';
@@ -11,6 +12,7 @@ connectDB(env.MONGO_URI);
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(i18n);
 
 app.use('/api/user', userRouter);

@@ -37,18 +37,20 @@ export const register: RequestHandler<
       res.status(400);
       throw new Error(res.getErrorText('invalidData'));
     } else {
-      const data = {
-        id: user._id.toString(),
-        name: user.name,
-        email: user.email,
-        token: generateToken(user._id.toString()),
-      };
-
-      res.status(201).json({
-        ok: true,
-        status: 201,
-        data,
-      });
+      res
+        .status(201)
+        .cookie('accessToken', generateToken(user._id.toString()), {
+          maxAge: 1000 * 60 * 60 * 24 * 30,
+        })
+        .json({
+          ok: true,
+          status: 201,
+          data: {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+          },
+        });
     }
   } catch (error) {
     next(error);
