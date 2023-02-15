@@ -1,5 +1,4 @@
-import en from '../errorMessages/en';
-import pl from '../errorMessages/pl';
+import { en, pl } from '../errorMessages/';
 
 import { ErrorMessagesKeys } from '../errorMessages/types';
 

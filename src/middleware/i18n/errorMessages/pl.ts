@@ -1,6 +1,6 @@
 import { ErrorMessages } from './types';
 
-const pl: ErrorMessages = {
+export const pl: ErrorMessages = {
   notFound: 'Żądana ścieżka nie istnieje',
   internal: 'Błąd wewnętrzny serwera',
   includeFields: 'Proszę uzupełnić wszystkie pola',
@@ -8,5 +8,3 @@ const pl: ErrorMessages = {
   wrongCredentials: 'Podano niepoprawny login lub hasło',
   invalidData: 'Nieprawidłowe dane',
 };
-
-export default pl;

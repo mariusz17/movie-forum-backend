@@ -1,6 +1,6 @@
 import { ErrorMessages } from './types';
 
-const en: ErrorMessages = {
+export const en: ErrorMessages = {
   notFound: 'Requested path does not exist',
   internal: 'Internal server error',
   includeFields: 'Please include all fields',
@@ -8,5 +8,3 @@ const en: ErrorMessages = {
   wrongCredentials: 'Wrong email or password',
   invalidData: 'Invalid data',
 };
-
-export default en;
