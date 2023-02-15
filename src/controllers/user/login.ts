@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { compare } from 'bcryptjs';
-import { t } from '../../services/i18n';
 import { User } from '../../services/mongoDB/models/user';
 import { generateToken } from './token';
 
@@ -18,7 +17,7 @@ export const login: RequestHandler<
 
     if (!email || !password) {
       res.status(401);
-      throw new Error(t('wrongCredentials', language));
+      throw new Error(res.getErrorText('wrongCredentials'));
     }
 
     const user = await User.findOne({ email });
@@ -36,7 +35,7 @@ export const login: RequestHandler<
       });
     } else {
       res.status(401);
-      throw new Error(t('wrongCredentials', language));
+      throw new Error(res.getErrorText('wrongCredentials'));
     }
   } catch (error) {
     next(error);

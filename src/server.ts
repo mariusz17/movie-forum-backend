@@ -1,5 +1,6 @@
 import express from 'express';
 import { env } from './config';
+import { i18n } from './middleware/i18n';
 import { router as userRouter } from './routes/user';
 import { notFound } from './controllers/notFound/notFound';
 import { errorHandler } from './middleware/errorHandler';
@@ -10,6 +11,7 @@ connectDB(env.MONGO_URI);
 const app = express();
 
 app.use(express.json());
+app.use(i18n);
 
 app.use('/api/user', userRouter);
 

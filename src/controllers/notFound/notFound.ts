@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { ApiResponseBody } from '../../types';
-import { t } from '../../services/i18n';
+import { t } from '../../middleware/i18n';
 
 export const notFound: RequestHandler<{}, ApiResponseBody<undefined>> = (
   req,

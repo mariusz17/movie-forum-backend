@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { genSalt, hash } from 'bcryptjs';
-import { t } from '../../services/i18n';
 import { User } from '../../services/mongoDB/models/user';
 import { generateToken } from './token';
 
@@ -13,17 +12,16 @@ export const register: RequestHandler<
   UserRegisterRequestBody
 > = async (req, res, next) => {
   try {
-    const language = req.acceptsLanguages()[0];
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
       res.status(400);
-      throw new Error(t('includeFields', language));
+      throw new Error(res.getErrorText('includeFields'));
     }
 
     if (await User.findOne({ email })) {
       res.status(400);
-      throw new Error(t('userExists', language));
+      throw new Error(res.getErrorText('userExists'));
     }
 
     const salt = await genSalt(10);
@@ -37,7 +35,7 @@ export const register: RequestHandler<
 
     if (!user) {
       res.status(400);
-      throw new Error(t('invalidData', language));
+      throw new Error(res.getErrorText('invalidData'));
     } else {
       const data = {
         id: user._id.toString(),
