@@ -1,4 +1,5 @@
 export type ErrorMessages = {
+  notFound: string;
   internal: string;
   includeFields: string;
   userExists: string;
