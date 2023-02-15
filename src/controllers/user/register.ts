@@ -12,10 +12,10 @@ export const register: RequestHandler<
   ApiResponseBody<UserResponseData>,
   NewUserRequestBody
 > = async (req, res, next) => {
-  const language = req.acceptsLanguages()[0];
+  try {
+    const language = req.acceptsLanguages()[0];
+    const { name, email, password } = req.body;
 
-  const validateData = async (data: NewUserRequestBody) => {
-    const { name, email, password } = data;
     if (!name || !email || !password) {
       res.status(400);
       throw new Error(t('includeFields', language));
@@ -26,13 +26,6 @@ export const register: RequestHandler<
       throw new Error(t('userExists', language));
     }
 
-    return { name, email, password };
-  };
-
-  const createUser = async (
-    data: NewUserRequestBody
-  ): Promise<UserResponseData> => {
-    const { name, email, password } = data;
     const salt = await genSalt(10);
     const hashedPassword = await hash(password, salt);
 
@@ -42,26 +35,24 @@ export const register: RequestHandler<
       password: hashedPassword,
     });
 
-    if (user) {
-      return {
+    if (!user) {
+      res.status(400);
+      throw new Error(t('invalidData', language));
+    } else {
+      const data = {
         id: user._id.toString(),
         name: user.name,
         email: user.email,
         token: generateToken(user._id.toString()),
       };
-    } else {
-      res.status(400);
-      throw new Error(t('invalidData', language));
+
+      res.status(201).json({
+        ok: true,
+        status: 201,
+        data,
+      });
     }
-  };
-
-  const sendResponse = (user: UserResponseData) => {
-    res.status(201).json({
-      ok: true,
-      status: 201,
-      data: user,
-    });
-  };
-
-  validateData(req.body).then(createUser).then(sendResponse).catch(next);
+  } catch (error) {
+    next(error);
+  }
 };
