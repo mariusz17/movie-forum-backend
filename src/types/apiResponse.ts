@@ -1,4 +1,4 @@
-export type ApiResponse<T> = {
+export type ApiResponseBody<T> = {
   ok: boolean;
   status: number;
   errorMessage?: string;

@@ -1,7 +1,11 @@
-import { Texts } from './types';
+import { ErrorMessages } from './types';
 
-const pl: Texts = {
-  greeting: 'Witaj',
+const pl: ErrorMessages = {
+  internal: 'Błąd wewnętrzny serwera',
+  includeFields: 'Proszę uzupełnić wszystkie pola',
+  userExists: 'Użytkownik o podanym mailu już istnieje',
+  wrongCredentials: 'Podano niepoprawny login lub hasło',
+  invalidData: 'Nieprawidłowe dane',
 };
 
 export default pl;

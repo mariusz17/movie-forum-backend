@@ -1,8 +1,22 @@
 import { ErrorRequestHandler } from 'express';
-import { sendResponse } from '../../services/sendResponse';
+import { t } from '../../services/i18n';
 
-export const errorHandler: ErrorRequestHandler = (err, _, res) => {
+import { ApiResponseBody } from '../../types';
+
+export const errorHandler: ErrorRequestHandler<
+  void,
+  ApiResponseBody<undefined>
+> = (err, req, res, _) => {
   console.error('Error caught in error middleware:', err);
 
-  sendResponse(res, false, 500, 'Internal server error');
+  const errorMessage = err.message
+    ? err.message
+    : t('internal', req.acceptsLanguages()[0]);
+  const status = res.statusCode ? res.statusCode : 500;
+
+  res.json({
+    ok: false,
+    status,
+    errorMessage,
+  });
 };
