@@ -4,7 +4,8 @@ import pl from '../errorMessages/pl';
 import { ErrorMessagesKeys } from '../errorMessages/types';
 
 export const getErrorText =
-  (language: string) => (errorKey: ErrorMessagesKeys) => {
+  (language: string) =>
+  (errorKey: ErrorMessagesKeys): string => {
     switch (language) {
       case 'en-GB' || 'en':
         return en[errorKey]
