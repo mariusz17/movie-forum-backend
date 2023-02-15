@@ -5,12 +5,12 @@ import { User } from '../../services/mongoDB/models/user';
 import { generateToken } from './token';
 
 import { ApiResponseBody } from '../../types';
-import { NewUserRequestBody, UserResponseData } from './types';
+import { UserRegisterRequestBody, UserResponseData } from './types';
 
 export const register: RequestHandler<
   {},
   ApiResponseBody<UserResponseData>,
-  NewUserRequestBody
+  UserRegisterRequestBody
 > = async (req, res, next) => {
   try {
     const language = req.acceptsLanguages()[0];

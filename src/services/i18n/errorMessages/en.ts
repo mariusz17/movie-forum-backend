@@ -5,7 +5,7 @@ const en: ErrorMessages = {
   internal: 'Internal server error',
   includeFields: 'Please include all fields',
   userExists: 'User already exists',
-  wrongCredentials: 'Wrong credentials',
+  wrongCredentials: 'Wrong email or password',
   invalidData: 'Invalid data',
 };
 
