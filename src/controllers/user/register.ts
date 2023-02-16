@@ -10,19 +10,13 @@ export const register: RequestHandler = async (req, res, next) => {
     const { name, email, password } = req.body as UserRegisterRequestBody;
 
     if (!name || !email || !password) {
-      res.sendApiResponse({
-        ok: false,
-        status: 400,
-        errorMessage: res.getErrorText('includeFields'),
-      });
+      res.status(400);
+      throw new Error(res.getErrorText('includeFields'));
     }
 
     if (await User.findOne({ email })) {
-      res.sendApiResponse({
-        ok: false,
-        status: 400,
-        errorMessage: res.getErrorText('userExists'),
-      });
+      res.status(400);
+      throw new Error(res.getErrorText('userExists'));
     }
 
     const salt = await genSalt(10);
@@ -49,11 +43,8 @@ export const register: RequestHandler = async (req, res, next) => {
           },
         });
     } else {
-      res.sendApiResponse({
-        ok: false,
-        status: 400,
-        errorMessage: res.getErrorText('invalidData'),
-      });
+      res.status(400);
+      throw new Error(res.getErrorText('invalidData'));
     }
   } catch (error) {
     next(error);

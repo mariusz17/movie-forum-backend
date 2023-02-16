@@ -10,11 +10,8 @@ export const login: RequestHandler = async (req, res, next) => {
     const { email, password } = req.body as UserLoginRequestBody;
 
     if (!email || !password) {
-      res.sendApiResponse({
-        ok: false,
-        status: 401,
-        errorMessage: res.getErrorText('wrongCredentials'),
-      });
+      res.status(401);
+      throw new Error(res.getErrorText('wrongCredentials'));
     }
 
     const user = await User.findOne({ email });
@@ -34,11 +31,8 @@ export const login: RequestHandler = async (req, res, next) => {
           },
         });
     } else {
-      res.sendApiResponse<string>({
-        ok: false,
-        status: 401,
-        errorMessage: res.getErrorText('wrongCredentials'),
-      });
+      res.status(401);
+      throw new Error(res.getErrorText('wrongCredentials'));
     }
   } catch (error) {
     next(error);
