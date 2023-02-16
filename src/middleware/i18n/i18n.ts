@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { getErrorText } from './getErrorText';
+import { getErrorTextTemplate } from './getErrorText';
 
 import { ErrorMessagesKeys } from './errorMessages/types';
 
@@ -14,7 +14,7 @@ declare global {
 export const i18n: RequestHandler = (req, res, next) => {
   try {
     res = Object.assign(res, {
-      getErrorText: getErrorText(req.acceptsLanguages()[0]),
+      getErrorText: getErrorTextTemplate(req.acceptsLanguages()[0]),
     });
     next();
   } catch (error) {

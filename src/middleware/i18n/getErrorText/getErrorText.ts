@@ -5,7 +5,7 @@ import { ErrorMessagesKeys } from '../errorMessages/types';
 const EN_PREFIXES = ['en', 'en-GB'];
 const PL_PREFIXES = ['pl', 'pl-PL'];
 
-export const getErrorText =
+export const getErrorTextTemplate =
   (language: string) =>
   (errorKey: ErrorMessagesKeys): string => {
     if (EN_PREFIXES.indexOf(language) !== -1) {
