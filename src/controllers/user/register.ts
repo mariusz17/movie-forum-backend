@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import { genSalt, hash } from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+
 import { User } from '../../services/mongoDB/models/user';
 import { generateToken } from './token';
 
@@ -19,10 +21,17 @@ export const register: RequestHandler = async (req, res, next) => {
       throw new Error(res.getErrorText('userExists'));
     }
 
+    let publicId = uuidv4();
+
+    do {
+      publicId = uuidv4();
+    } while (await User.findOne({ publicId }));
+
     const salt = await genSalt(10);
     const hashedPassword = await hash(password, salt);
 
     const user = await User.create({
+      publicId,
       name,
       email,
       password: hashedPassword,
@@ -37,7 +46,7 @@ export const register: RequestHandler = async (req, res, next) => {
           ok: true,
           status: 201,
           data: {
-            id: user._id.toString(),
+            publicId: user.publicId,
             name: user.name,
             email: user.email,
           },

@@ -8,7 +8,7 @@ export type UserLoginRequestBody = {
 };
 
 export type UserResponseData = {
-  id: string;
+  publicId: string;
   name: string;
   email: string;
 };

@@ -25,7 +25,7 @@ export const login: RequestHandler = async (req, res, next) => {
           ok: true,
           status: 200,
           data: {
-            id: user._id.toString(),
+            publicId: user.publicId,
             name: user.name,
             email: user.email,
           },

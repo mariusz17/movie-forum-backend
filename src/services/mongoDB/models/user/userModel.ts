@@ -3,6 +3,7 @@ import { IUser } from './types';
 
 const userSchema = new Schema<IUser>(
   {
+    publicId: { type: String, required: [true, 'Please provide public ID'] },
     name: { type: String, required: [true, 'Please add name'] },
     email: {
       type: String,
