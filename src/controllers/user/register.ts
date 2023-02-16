@@ -3,25 +3,26 @@ import { genSalt, hash } from 'bcryptjs';
 import { User } from '../../services/mongoDB/models/user';
 import { generateToken } from './token';
 
-import { ApiResponseBody } from '../../types';
 import { UserRegisterRequestBody, UserResponseData } from './types';
 
-export const register: RequestHandler<
-  {},
-  ApiResponseBody<UserResponseData>,
-  UserRegisterRequestBody
-> = async (req, res, next) => {
+export const register: RequestHandler = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body as UserRegisterRequestBody;
 
     if (!name || !email || !password) {
-      res.status(400);
-      throw new Error(res.getErrorText('includeFields'));
+      res.sendApiResponse({
+        ok: false,
+        status: 400,
+        errorMessage: res.getErrorText('includeFields'),
+      });
     }
 
     if (await User.findOne({ email })) {
-      res.status(400);
-      throw new Error(res.getErrorText('userExists'));
+      res.sendApiResponse({
+        ok: false,
+        status: 400,
+        errorMessage: res.getErrorText('userExists'),
+      });
     }
 
     const salt = await genSalt(10);
@@ -33,16 +34,12 @@ export const register: RequestHandler<
       password: hashedPassword,
     });
 
-    if (!user) {
-      res.status(400);
-      throw new Error(res.getErrorText('invalidData'));
-    } else {
+    if (user) {
       res
-        .status(201)
         .cookie('accessToken', generateToken(user._id.toString()), {
           maxAge: 1000 * 60 * 60 * 24 * 30,
         })
-        .json({
+        .sendApiResponse<UserResponseData>({
           ok: true,
           status: 201,
           data: {
@@ -51,6 +48,12 @@ export const register: RequestHandler<
             email: user.email,
           },
         });
+    } else {
+      res.sendApiResponse({
+        ok: false,
+        status: 400,
+        errorMessage: res.getErrorText('invalidData'),
+      });
     }
   } catch (error) {
     next(error);

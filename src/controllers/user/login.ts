@@ -3,32 +3,28 @@ import { compare } from 'bcryptjs';
 import { User } from '../../services/mongoDB/models/user';
 import { generateToken } from './token';
 
-import { ApiResponseBody } from '../../types';
 import { UserLoginRequestBody, UserResponseData } from './types';
 
-export const login: RequestHandler<
-  {},
-  ApiResponseBody<UserResponseData>,
-  UserLoginRequestBody
-> = async (req, res, next) => {
+export const login: RequestHandler = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const language = req.acceptsLanguages()[0];
+    const { email, password } = req.body as UserLoginRequestBody;
 
     if (!email || !password) {
-      res.status(401);
-      throw new Error(res.getErrorText('wrongCredentials'));
+      res.sendApiResponse({
+        ok: false,
+        status: 401,
+        errorMessage: res.getErrorText('wrongCredentials'),
+      });
     }
 
     const user = await User.findOne({ email });
 
     if (user && (await compare(password, user.password))) {
       res
-        .status(200)
         .cookie('accessToken', generateToken(user._id.toString()), {
           maxAge: 1000 * 60 * 60 * 24 * 30,
         })
-        .json({
+        .sendApiResponse<UserResponseData>({
           ok: true,
           status: 200,
           data: {
@@ -38,8 +34,11 @@ export const login: RequestHandler<
           },
         });
     } else {
-      res.status(401);
-      throw new Error(res.getErrorText('wrongCredentials'));
+      res.sendApiResponse<string>({
+        ok: false,
+        status: 401,
+        errorMessage: res.getErrorText('wrongCredentials'),
+      });
     }
   } catch (error) {
     next(error);
