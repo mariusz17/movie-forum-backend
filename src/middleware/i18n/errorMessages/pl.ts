@@ -7,4 +7,6 @@ export const pl: ErrorMessages = {
   userExists: 'Użytkownik o podanym mailu już istnieje',
   wrongCredentials: 'Podano niepoprawny login lub hasło',
   invalidData: 'Nieprawidłowe dane',
+  unauthorized: 'Brak uprawnień do żądanego zasobu',
+  sessionExpired: 'Sesja wygasła, zaloguj się ponownie',
 };

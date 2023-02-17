@@ -7,4 +7,6 @@ export const en: ErrorMessages = {
   userExists: 'User already exists',
   wrongCredentials: 'Wrong email or password',
   invalidData: 'Invalid data',
+  unauthorized: 'You are not authorized to receive requested resource',
+  sessionExpired: 'Session expired, please login again',
 };

@@ -5,6 +5,8 @@ export type ErrorMessages = {
   userExists: string;
   wrongCredentials: string;
   invalidData: string;
+  unauthorized: string;
+  sessionExpired: string;
 };
 
 export type ErrorMessagesKeys = keyof ErrorMessages;

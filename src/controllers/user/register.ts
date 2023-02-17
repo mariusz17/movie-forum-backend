@@ -3,7 +3,7 @@ import { genSalt, hash } from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
 import { User } from '../../services/mongoDB/models/user';
-import { generateToken } from './token';
+import { createJwtAccessToken, createJwtRefreshToken } from '../../utils/token';
 
 import { UserRegisterRequestBody, UserResponseData } from './types';
 
@@ -38,8 +38,20 @@ export const register: RequestHandler = async (req, res, next) => {
     });
 
     if (user) {
+      const jwtAccessToken = await createJwtAccessToken(user._id.toString());
+      const { jwtRefreshToken, refreshToken } = await createJwtRefreshToken(
+        user._id.toString(),
+        user.validRefreshTokens
+      );
+
+      user.validRefreshTokens.push(refreshToken);
+      await user.save();
+
       res
-        .cookie('accessToken', generateToken(user._id.toString()), {
+        .cookie('accessToken', jwtAccessToken, {
+          maxAge: 1000 * 60 * 60 * 24 * 30,
+        })
+        .cookie('refreshToken', jwtRefreshToken, {
           maxAge: 1000 * 60 * 60 * 24 * 30,
         })
         .sendApiResponse<UserResponseData>({

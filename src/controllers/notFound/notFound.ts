@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 
-export const notFound: RequestHandler = (_, res) => {
-  res.sendApiResponse(false, 404, null, res.getErrorText('notFound'));
+export const notFound: RequestHandler = (_, res, next) => {
+  res.status(404);
+  next(new Error(res.getErrorText('notFound')));
 };
