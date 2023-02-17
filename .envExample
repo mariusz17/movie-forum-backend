@@ -1,0 +1,8 @@
+NODE_ENV = development
+PORT = app_port
+MONGO_URI = mongo_uri_here
+JWT_ACCESS_TOKEN_SECRET = some_secret_key
+JWT_REFRESH_TOKEN_SECRET = some_secret_key
+JWT_ACCESS_TOKEN_EXPIRATION_TIME = seconds
+JWT_REFRESH_TOKEN_EXPIRATION_TIME = seconds
+CORS_URL = frontend_url_for_cors
