@@ -21,7 +21,10 @@ export const login: RequestHandler = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user && (await compare(password, user.password))) {
-      const jwtAccessToken = await createJwtAccessToken(user._id.toString());
+      const { jwtAccessToken, accessToken } = await createJwtAccessToken(
+        user._id.toString(),
+        user.validAccessTokens
+      );
       const { jwtRefreshToken, refreshToken } = await createJwtRefreshToken(
         user._id.toString(),
         user.validRefreshTokens
@@ -29,6 +32,7 @@ export const login: RequestHandler = async (req, res, next) => {
 
       user.isLoggedOut = false;
       user.validRefreshTokens.push(refreshToken);
+      user.validAccessTokens.push(accessToken);
       await user.save();
 
       setTokenCookies(res, { jwtAccessToken, jwtRefreshToken });

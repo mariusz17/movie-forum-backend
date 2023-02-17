@@ -42,13 +42,17 @@ export const register: RequestHandler = async (req, res, next) => {
     });
 
     if (user) {
-      const jwtAccessToken = await createJwtAccessToken(user._id.toString());
+      const { jwtAccessToken, accessToken } = await createJwtAccessToken(
+        user._id.toString(),
+        user.validAccessTokens
+      );
       const { jwtRefreshToken, refreshToken } = await createJwtRefreshToken(
         user._id.toString(),
         user.validRefreshTokens
       );
 
       user.validRefreshTokens.push(refreshToken);
+      user.validAccessTokens.push(accessToken);
       await user.save();
 
       setTokenCookies(res, { jwtAccessToken, jwtRefreshToken });

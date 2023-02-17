@@ -22,6 +22,8 @@ export const createNewTokens = async (refreshToken: string, res: Response) => {
     user &&
     user.validRefreshTokens.indexOf(decodedRefreshToken.token) === -1
   ) {
+    user.validAccessTokens = [];
+    user.validRefreshTokens = [];
     user.isLoggedOut = true;
     await user.save();
 
@@ -35,7 +37,10 @@ export const createNewTokens = async (refreshToken: string, res: Response) => {
     !user.isLoggedOut &&
     user.validRefreshTokens.indexOf(decodedRefreshToken.token) !== -1
   ) {
-    const jwtAccessToken = await createJwtAccessToken(user._id.toString());
+    const { jwtAccessToken, accessToken } = await createJwtAccessToken(
+      user._id.toString(),
+      user.validAccessTokens
+    );
 
     const { jwtRefreshToken, refreshToken } = await createJwtRefreshToken(
       user._id.toString(),
@@ -46,8 +51,9 @@ export const createNewTokens = async (refreshToken: string, res: Response) => {
     user.validRefreshTokens = user.validRefreshTokens.filter(
       (token) => token !== decodedRefreshToken.token
     );
-    // Add new refresh token to valid user refresh tokens
+    // Add new refresh & access tokens to valid user tokens
     user.validRefreshTokens.push(refreshToken);
+    user.validAccessTokens.push(accessToken);
     await user.save();
 
     return { user, jwtAccessToken, jwtRefreshToken };

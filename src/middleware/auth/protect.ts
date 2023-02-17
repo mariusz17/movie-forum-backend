@@ -28,7 +28,11 @@ export const protect: RequestHandler = async (req, res, next) => {
 
     const user = await User.findById(decodedAccessToken.id);
 
-    if (user && !user.isLoggedOut) {
+    if (
+      user &&
+      !user.isLoggedOut &&
+      user.validAccessTokens.indexOf(decodedAccessToken.token) !== -1
+    ) {
       req.verifiedUser = {
         publicId: user.publicId,
         privateId: user._id.toString(),
@@ -69,12 +73,12 @@ export const protect: RequestHandler = async (req, res, next) => {
         return;
       } catch (error: any) {
         // If refresh token also expired or is missing:
-        if (
-          error.message === 'jwt expired' ||
-          error.message === 'jwt must be provided'
-        ) {
+        if (error.message === 'jwt expired') {
           res.status(401);
           next(new Error(res.getErrorText('sessionExpired')));
+        } else if (error.message === 'jwt must be provided') {
+          res.status(401);
+          next(new Error(res.getErrorText('unauthorized')));
         } else {
           res.status(401);
           next(error);

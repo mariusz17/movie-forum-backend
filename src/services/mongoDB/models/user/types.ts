@@ -5,4 +5,5 @@ export interface IUser {
   password: string;
   isLoggedOut: boolean;
   validRefreshTokens: string[];
+  validAccessTokens: string[];
 }

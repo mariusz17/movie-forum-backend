@@ -2,6 +2,7 @@ import { Response } from 'express';
 
 export type JwtAccessTokenPayload = {
   id: string;
+  token: string;
 };
 
 export type JwtRefreshTokenPayload = {

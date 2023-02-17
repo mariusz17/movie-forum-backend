@@ -13,6 +13,7 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: [true, 'Please provide password'] },
     isLoggedOut: { type: Boolean, required: true, default: false },
     validRefreshTokens: [String],
+    validAccessTokens: [String],
   },
   { timestamps: true }
 );
