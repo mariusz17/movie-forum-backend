@@ -9,15 +9,11 @@ export const getErrorTextTemplate =
   (language: string) =>
   (errorKey: ErrorMessagesKeys): string => {
     if (EN_PREFIXES.indexOf(language) !== -1) {
-      return en[errorKey]
-        ? en[errorKey]
-        : `Missing translation for ${errorKey}`;
+      return en[errorKey];
     }
 
     if (PL_PREFIXES.indexOf(language) !== -1) {
-      return pl[errorKey]
-        ? pl[errorKey]
-        : `Missing translation for ${errorKey}`;
+      return pl[errorKey];
     }
 
     return en[errorKey] ? en[errorKey] : `Missing translation for ${errorKey}`;
