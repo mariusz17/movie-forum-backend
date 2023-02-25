@@ -1,6 +1,8 @@
-import { IUser } from '../../services/mongoDB/models/user/types';
-
-export type UserRegisterRequestBody = IUser;
+export type UserRegisterRequestBody = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 export type UserLoginRequestBody = {
   email: string;
