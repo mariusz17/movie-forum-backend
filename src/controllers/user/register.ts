@@ -60,7 +60,7 @@ export const register: RequestHandler = async (req, res, next) => {
         ok: true,
         status: 201,
         data: {
-          publicId: user.publicId,
+          id: user.publicId,
           name: user.name,
           email: user.email,
         },

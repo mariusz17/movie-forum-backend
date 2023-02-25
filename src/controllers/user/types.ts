@@ -10,7 +10,7 @@ export type UserLoginRequestBody = {
 };
 
 export type UserResponseData = {
-  publicId: string;
+  id: string;
   name: string;
   email: string;
 };
