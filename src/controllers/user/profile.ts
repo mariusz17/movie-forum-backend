@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 
 import { UserResponseData } from './types';
 
-export const me: RequestHandler = (req, res, next) => {
+export const profile: RequestHandler = (req, res, next) => {
   try {
     if (req.verifiedUser) {
       res.sendApiResponse<UserResponseData>({
