@@ -5,6 +5,7 @@ import {
   profile,
   logout,
   logoutAll,
+  refresh,
 } from '../controllers/user';
 import { protect } from '../middleware/auth';
 
@@ -14,4 +15,5 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', protect, logout);
 router.post('/logout-all', protect, logoutAll);
+router.get('/refresh', refresh);
 router.get('/profile', protect, profile);
