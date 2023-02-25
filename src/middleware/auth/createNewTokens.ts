@@ -24,7 +24,6 @@ export const createNewTokens = async (refreshToken: string, res: Response) => {
   ) {
     user.validAccessTokens = [];
     user.validRefreshTokens = [];
-    user.isLoggedOut = true;
     await user.save();
 
     res.status(401);
@@ -34,7 +33,6 @@ export const createNewTokens = async (refreshToken: string, res: Response) => {
   // If everything is OK:
   if (
     user &&
-    !user.isLoggedOut &&
     user.validRefreshTokens.indexOf(decodedRefreshToken.token) !== -1
   ) {
     const { jwtAccessToken, accessToken } = await createJwtAccessToken(

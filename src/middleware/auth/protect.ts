@@ -30,7 +30,6 @@ export const protect: RequestHandler = async (req, res, next) => {
 
     if (
       user &&
-      !user.isLoggedOut &&
       user.validAccessTokens.indexOf(decodedAccessToken.token) !== -1
     ) {
       req.verifiedUser = {

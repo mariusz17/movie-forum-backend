@@ -9,7 +9,6 @@ export const logoutAll: RequestHandler = async (req, res, next) => {
       if (user) {
         user.validAccessTokens = [];
         user.validRefreshTokens = [];
-        user.isLoggedOut = true;
         await user.save();
 
         res

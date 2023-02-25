@@ -30,7 +30,6 @@ export const login: RequestHandler = async (req, res, next) => {
         user.validRefreshTokens
       );
 
-      user.isLoggedOut = false;
       user.validRefreshTokens.push(refreshToken);
       user.validAccessTokens.push(accessToken);
       await user.save();

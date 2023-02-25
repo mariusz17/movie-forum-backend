@@ -11,7 +11,6 @@ const userSchema = new Schema<IUser>(
       unique: true,
     },
     password: { type: String, required: [true, 'Please provide password'] },
-    isLoggedOut: { type: Boolean, required: true, default: false },
     validRefreshTokens: [String],
     validAccessTokens: [String],
   },
