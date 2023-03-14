@@ -10,7 +10,7 @@ export const profile: RequestHandler = (req, res, next) => {
         status: 200,
         data: {
           id: req.verifiedUser.publicId,
-          name: req.verifiedUser.name,
+          username: req.verifiedUser.username,
           email: req.verifiedUser.email,
         },
       });

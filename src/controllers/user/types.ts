@@ -1,5 +1,5 @@
 export type UserRegisterRequestBody = {
-  name: string;
+  username: string;
   email: string;
   password: string;
 };
@@ -11,6 +11,6 @@ export type UserLoginRequestBody = {
 
 export type UserResponseData = {
   id: string;
-  name: string;
+  username: string;
   email: string;
 };

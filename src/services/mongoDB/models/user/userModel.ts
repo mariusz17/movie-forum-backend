@@ -4,7 +4,7 @@ import { IUser } from './types';
 const userSchema = new Schema<IUser>(
   {
     publicId: { type: String, required: [true, 'Please provide public ID'] },
-    name: { type: String, required: [true, 'Please provide name'] },
+    username: { type: String, required: [true, 'Please provide username'] },
     email: {
       type: String,
       required: [true, 'Please provide email'],

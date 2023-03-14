@@ -33,7 +33,7 @@ export const protect: RequestHandler = async (req, res, next) => {
       req.verifiedUser = {
         publicId: user.publicId,
         privateId: user._id.toString(),
-        name: user.name,
+        username: user.username,
         email: user.email,
       };
 

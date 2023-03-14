@@ -1,6 +1,6 @@
 export interface IUser {
   publicId: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
   validRefreshTokens: string[];
