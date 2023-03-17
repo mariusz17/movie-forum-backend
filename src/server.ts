@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { env } from './config';
 import { i18n } from './middleware/i18n';
@@ -11,6 +12,14 @@ import { connectDB } from './services/mongoDB/client';
 connectDB(env.MONGO_URI);
 
 const app = express();
+
+app.use(
+  cors({
+    origin: env.CORS_URL,
+    methods: ['POST', 'PUT', 'GET', 'DELETE'],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
