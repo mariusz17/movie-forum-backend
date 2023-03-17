@@ -40,7 +40,7 @@ export const login: RequestHandler = async (req, res, next) => {
         status: 200,
         data: {
           id: user.publicId,
-          name: user.name,
+          username: user.username,
           email: user.email,
         },
       });

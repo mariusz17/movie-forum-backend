@@ -13,9 +13,9 @@ import { UserRegisterRequestBody, UserResponseData } from './types';
 
 export const register: RequestHandler = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body as UserRegisterRequestBody;
+    const { username, email, password } = req.body as UserRegisterRequestBody;
 
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       res.status(400);
       throw new Error(res.getErrorText('includeFields'));
     }
@@ -36,7 +36,7 @@ export const register: RequestHandler = async (req, res, next) => {
 
     const user = await User.create({
       publicId,
-      name,
+      username,
       email,
       password: hashedPassword,
     });
@@ -61,7 +61,7 @@ export const register: RequestHandler = async (req, res, next) => {
         status: 201,
         data: {
           id: user.publicId,
-          name: user.name,
+          username: user.username,
           email: user.email,
         },
       });
